@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 08, 2023 at 08:03 PM
+-- Generation Time: Feb 22, 2023 at 08:06 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -227,7 +227,9 @@ INSERT INTO `metaterms` (`metaterm_id`, `metaterm_module`, `metaterm_type`, `met
 (11, 'levels', 'level', 4, 'customer', '2023-01-07 14:59:26', '2023-01-07 14:59:26', '2022-06-16 10:56:39', 1),
 (12, 'users', 'user', 1, 'superadmin', '2023-01-07 14:59:26', '2023-01-07 14:59:26', '2022-06-16 11:32:22', 1),
 (13, 'users', 'user', 2, 'janedoe', '2023-01-07 14:59:26', '2023-01-07 14:59:26', '2022-06-16 11:32:22', 1),
-(14, 'fields', 'member', 1, 'member', '2023-01-07 14:59:26', '2023-01-07 14:59:26', '2022-07-27 20:47:05', 1);
+(14, 'fields', 'member', 1, 'member', '2023-01-07 14:59:26', '2023-01-07 14:59:26', '2022-07-27 20:47:05', 1),
+(15, 'users', 'user', 3, 'talon', '2023-02-22 21:44:52', '2023-02-22 21:44:52', '2023-02-22 18:44:52', 1),
+(16, 'users', 'user', 4, 'georgia', '2023-02-22 21:53:07', '2023-02-22 21:53:07', '2023-02-22 18:53:07', 1);
 
 -- --------------------------------------------------------
 
@@ -314,11 +316,11 @@ INSERT INTO `settings` (`setting_id`, `setting_title`, `setting_value`, `setting
 (30, 'seo_meta_data', '', '2023-01-07 14:20:55', NULL, '2018-12-17 04:10:23', 'yes', 1),
 (31, 'setthelper', '[\"helper\",\"locale\"]', '2023-01-07 14:20:55', NULL, '2022-09-01 10:25:13', 'yes', 1),
 (32, 'inheritance_data', 'default,category,tag,gender', '2023-01-07 14:20:55', NULL, '2021-07-21 21:44:17', 'yes', 1),
-(33, 'module_list', 'main,blog,page,autofield,control,inheritance,customfield,user,level,setting,general,extend,helper', '2023-01-07 14:20:55', NULL, '2022-08-26 15:30:28', 'yes', 1),
+(33, 'module_list', 'main,blog,page,autofield,control,inheritance,customfield,user,level,setting,general,extend,helper,exercise,nutrition,martialart', '2023-01-07 14:20:55', '2023-02-19 10:56:57', '2023-02-19 07:56:57', 'yes', 1),
 (34, 'assets', 'assets/admin', '2023-01-07 14:20:55', NULL, '2019-06-08 03:22:55', 'yes', 1),
 (35, 'ext_dir', 'extend/', '2023-01-07 14:20:55', NULL, '2019-06-10 19:54:39', 'yes', 1),
 (36, 'ext_assets', 'assets/extend', '2023-01-07 14:20:55', NULL, '2019-06-08 05:25:52', 'yes', 1),
-(37, 'theme_name', 'starter', '2023-01-07 14:20:55', NULL, '2022-10-13 01:42:16', 'theme', 1),
+(37, 'theme_name', 'qovexv1', '2023-01-07 14:20:55', '2023-02-19 11:15:20', '2023-02-19 08:15:20', 'theme', 1),
 (38, 'theme_dir', 'themes/starter', '2023-01-07 14:20:55', NULL, '2019-06-10 19:54:50', 'theme', 1),
 (39, 'theme_assets', 'asset', '2023-01-07 14:20:55', NULL, '2022-09-30 09:49:24', 'theme', 1),
 (40, 'child_theme', '', '2023-01-07 14:20:55', NULL, '2019-06-08 06:30:26', 'theme', 1),
@@ -337,7 +339,9 @@ INSERT INTO `settings` (`setting_id`, `setting_title`, `setting_value`, `setting
 (53, 'country_timezone', 'Africa/Nairobi', '2023-01-07 14:20:55', NULL, '2021-07-21 21:01:55', 'locale', 1),
 (54, 'field_menu', '{\"menu_path\":\"member\\/menu\",\"route\":{\"member\":\"Field\\/Members\\/index\",\"member\\/new\":\"Field\\/Members\\/open\\/add\",\"member\\/edit\":\"Field\\/Members\\/edit\\/edit\",\"member\\/save\":\"Field\\/Members\\/valid\\/save\",\"member\\/update\":\"Field\\/Members\\/valid\\/update\",\"member\\/delete\":\"Field\\/Members\\/valid\\/delete\",\"member\\/multiple\":\"Field\\/Members\\/valid\\/bulk\"},\"name\":\"Field Members\"}', '2023-01-07 14:20:55', NULL, '2022-08-26 14:48:32', 'route', 0),
 (55, 'extension_menu', '{\"menu_path\":\"customer\\/menu\",\"route\":{\"customer\":\"Extension\\/Customers\\/index\",\"customer\\/new\":\"Extension\\/Customers\\/open\\/add\",\"customer\\/edit\":\"Extension\\/Customers\\/edit\\/edit\",\"customer\\/save\":\"Extension\\/Customers\\/valid\\/save\",\"customer\\/update\":\"Extension\\/Customers\\/valid\\/update\",\"customer\\/delete\":\"Extension\\/Customers\\/valid\\/delete\",\"customer\\/multiple\":\"Extension\\/Customers\\/valid\\/bulk\"},\"name\":\"Customer Extension\"}', '2023-01-07 14:20:55', NULL, '2022-09-09 15:14:54', 'route', 1),
-(56, 'extension_menu', '{\"menu_path\":\"migrate\\/menu\",\"route\":{\"migrate\":\"Extension\\/Ex_Migrate\\/open\\/manage\",\"migrate\\/save\":\"Extension\\/Ex_Migrate\\/valid\\/all\",\"migrate\\/multiple\":\"Extension\\/Ex_Migrate\\/valid\\/bulk\",\"migrate\\/(:any)\":\"Extension\\/Ex_Migrate\\/migrate\\/$1\"},\"name\":\"Migrate\"}', '2023-01-07 14:20:55', '2023-01-16 22:28:04', '2023-01-16 19:28:04', 'migration', 1);
+(56, 'extension_menu', '{\"menu_path\":\"migrate\\/menu\",\"route\":{\"migrate\":\"Extension\\/Ex_Migrate\\/open\\/manage\",\"migrate\\/save\":\"Extension\\/Ex_Migrate\\/valid\\/all\",\"migrate\\/multiple\":\"Extension\\/Ex_Migrate\\/valid\\/bulk\",\"migrate\\/(:any)\":\"Extension\\/Ex_Migrate\\/migrate\\/$1\"},\"name\":\"Migrate\"}', '2023-01-07 14:20:55', '2023-01-16 22:28:04', '2023-01-16 19:28:04', 'migration', 1),
+(57, 'route_menu', '{\"name\":\"LogAccount\",\"route\":{\"signup\":\"Log\\/Register\\/index\",\"signup\\/account\":\"Log\\/Register\\/valid\\/register\",\"signin\":\"Login\\/index\",\"signin\\/account\":\"Login\\/valid\\/login\",\"signin\\/account\\/verify\":\"Login\\/valid\\/verify\",\"reset\":\"Log\\/Reset\\/index\",\"reset-link\":\"Log\\/Reset\\/valid\\/account\",\"reset-link\\/reset\":\"Log\\/Reset\\/valid\\/reset\",\"reset\\/newpassword\":\"Log\\/Reset\\/valid\\/password\",\"logout-account\":\"Login\\/valid\\/logout\",\"signup-account\\/verify\":\"Log\\/Verify\\/valid\\/verify\",\"signup-account\\/re-retry\":\"Log\\/Verify\\/valid\\/reverify\",\"signup-account\\/re-send\":\"Log\\/Verify\\/valid\\/resend\"}}', '2023-01-07 14:20:55', '2023-02-22 22:27:30', '2023-02-22 19:27:30', 'route', 1),
+(58, 'route_menu', '{\"name\":\"1-Dashboard\",\"route\":{\"fitness-dashboard\":\"Fitness\\/Dashboard\\/index\"}}', '2023-02-22 22:21:14', '2023-02-22 22:21:14', '2023-02-22 19:21:14', 'route', 1);
 
 -- --------------------------------------------------------
 
@@ -390,7 +394,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_level`, `user_logname`, `user_password`, `user_name`, `user_email`, `user_mobile`, `user_created`, `user_updated`, `user_token`, `user_details`, `user_stamp`, `user_default`, `user_flg`) VALUES
 (1, 'superadmin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'John Doe', 'johndoe@core.com', NULL, '2021-07-22 13:41:26', '2023-01-07 14:33:40', NULL, '{\"user_name\":\"John Doe\",\"user_email\":\"johndoe@core.com\",\"user_level\":\"superadmin\",\"user_password\":\"d033e22ae348aeb5660fc2140aec35850c4da997\",\"user_stamp\":\"2023-01-07 14:33:40\",\"user_flg\":1,\"user_logname\":\"admin\"}', '2023-01-07 11:33:40', 'yes', 1),
-(2, 'customer', 'janedoe', '06d213088a72f4c1ac947c6f3d9ddd321650ebfb', 'Jane Doe', 'janedoe@core.com', NULL, '2022-01-07 14:25:11', NULL, NULL, '{\"user_name\":\"Jane Doe\",\"user_email\":\"janedoe@core.com\",\"user_level\":\"customer\",\"user_logname\":\"janedoe\",\"user_password\":\"06d213088a72f4c1ac947c6f3d9ddd321650ebfb\",\"user_default\":\"no\",\"user_stamp\":\"2022-01-07 14:25:11\",\"user_flg\":1}', '2022-01-07 11:25:11', 'no', 1);
+(2, 'customer', 'janedoe', '06d213088a72f4c1ac947c6f3d9ddd321650ebfb', 'Jane Doe', 'janedoe@core.com', NULL, '2022-01-07 14:25:11', NULL, NULL, '{\"user_name\":\"Jane Doe\",\"user_email\":\"janedoe@core.com\",\"user_level\":\"customer\",\"user_logname\":\"janedoe\",\"user_password\":\"06d213088a72f4c1ac947c6f3d9ddd321650ebfb\",\"user_default\":\"no\",\"user_stamp\":\"2022-01-07 14:25:11\",\"user_flg\":1}', '2022-01-07 11:25:11', 'no', 1),
+(3, 'customer', 'talon', '7d38307ef52e802145060851c5225f7e02dd9581', 'Talon  Daniels', 'cudegyzuwy@mailinator.com', '0708549611', '2023-02-22 21:44:52', '2023-02-22 22:17:17', 'TC6DE4MN5C', '{\"terms\":\"I agree\",\"profile\":null,\"user_level\":\"customer\",\"user_logname\":\"talon\",\"user_password\":\"7d38307ef52e802145060851c5225f7e02dd9581\",\"user_name\":\"Talon  Daniels\",\"user_email\":\"cudegyzuwy@mailinator.com\",\"user_token\":\"TC6DE4MN5C\",\"user_flg\":1,\"user_stamp\":\"2023-02-22 21:44:52\"}', '2023-02-22 19:17:17', 'no', 1),
+(4, 'customer', 'georgia', '7d38307ef52e802145060851c5225f7e02dd9581', 'Georgia Ortega', 'qujosazo@mailinator.com', '0708549612', '2023-02-22 21:53:07', '2023-02-22 22:27:59', 'HFHJ78SKGK', '{\"terms\":\"I agree\",\"profile\":null,\"user_level\":\"customer\",\"user_logname\":\"georgia\",\"user_password\":\"7d38307ef52e802145060851c5225f7e02dd9581\",\"user_name\":\"Georgia Ortega\",\"user_email\":\"qujosazo@mailinator.com\",\"user_mobile\":\"0708549612\",\"user_token\":\"HFHJ78SKGK\",\"user_flg\":1,\"user_stamp\":\"2023-02-22 21:53:07\"}', '2023-02-22 19:27:59', 'no', 1);
 
 --
 -- Indexes for dumped tables
@@ -506,7 +512,7 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `metaterms`
 --
 ALTER TABLE `metaterms`
-  MODIFY `metaterm_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `metaterm_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -518,7 +524,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `setting_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `setting_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tokens`
@@ -530,7 +536,7 @@ ALTER TABLE `tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
