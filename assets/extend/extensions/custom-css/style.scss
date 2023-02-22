@@ -1,0 +1,33 @@
+// Include Color
+@import "_incl/colors";
+// Include
+@import "_incl/incl";
+// Pre Functions
+@import "_incl/func";
+
+/**
+** Todo:
+** 1: Vormia Includes
+*/
+@include colorsCode();
+@include marginSet();
+@include paddingSet();
+@include required();
+
+/***
+** Todo: Login Banner
+*/
+.bg-login {
+	background-image: url(../../../../application/views/themes/qovexv1/assets/custom/img/logo2.png) !important;
+	background-size: contain !important;
+}
+
+// Error
+span.error,
+p.error,
+span.error > p {
+	font-size: 12px;
+	font-weight: 400;
+	color: color(red);
+	font-style: italic;
+}

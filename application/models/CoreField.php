@@ -36,8 +36,20 @@ class CoreField extends CI_Model
 	{
 		//Values Assets
 
-		//Loading Demo
-		$data['demo_load'] = 'Delete These';
+		//Loading 
+		$data['customasset'] = $this->CoreLoad->ext_asset('/extensions'); //Extension
+		$data['customcss'] = $data['customasset'] . '/custom-css'; //Extension - Custom Extension
+
+		$data['h4_pagetitle'] = 'Dashboard';
+		$data['breadcrumb'] = array();
+
+		// Brand
+		$data['brand_name'] = "Nelson Fitness";
+		$data['product_name'] = "Fitness One";
+		$data['dev_name'] = "Vormia";
+		$data['coder_name'] = "Josh";
+
+		// 
 
 		//returned DATA
 		return $data;

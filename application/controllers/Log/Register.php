@@ -139,7 +139,7 @@ class Register extends CI_Controller
 
 		//Notification
 		$notify = $this->Notify->notify();
-		$data['notify_signup'] = $this->Notify->$notify($notifyMessage);
+		$data['notify'] = $this->Notify->$notify($notifyMessage);
 
 		//Open Page
 		$this->pages($data);
@@ -169,7 +169,7 @@ class Register extends CI_Controller
 
 		//Notification
 		$notify = $this->Notify->notify();
-		$data['notify_signup'] = $this->Notify->$notify($message);
+		$data['notify'] = $this->Notify->$notify($message);
 
 		//Open Page
 		$this->pages($data, $layout);
@@ -198,7 +198,8 @@ class Register extends CI_Controller
 			$formData = $this->CoreLoad->input(); //Input Data
 
 			//Form Validation Values
-			$this->form_validation->set_rules("user_name", "Full Name", "required|trim|min_length[2]|max_length[60]");
+			$this->form_validation->set_rules("first_name", "First Name", "required|trim|min_length[2]|max_length[60]");
+			$this->form_validation->set_rules("last_name", "Last Name", "required|trim|min_length[2]|max_length[60]");
 			$this->form_validation->set_rules(
 				"user_email",
 				"Email",
@@ -256,7 +257,7 @@ class Register extends CI_Controller
 					//Notification
 					$this->session->set_flashdata('notification', 'success'); //Notification Type
 					$message = 'Account Created!, verify your email using link we sent'; //Notification Message	
-					$data['notify_signup'] = $this->Notify->success($message);
+					$data['notify'] = $this->Notify->success($message);
 
 					// Data
 					$data['user_info_id'] = 'mem-' . $userId;

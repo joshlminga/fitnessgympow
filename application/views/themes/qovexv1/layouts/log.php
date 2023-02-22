@@ -18,12 +18,14 @@
 	<link href="<?= base_url($theme_assets); ?>/css/icons.min.css" rel="stylesheet" type="text/css" />
 	<!-- App Css-->
 	<link href="<?= base_url($theme_assets); ?>/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+	<!-- Custom Css-->
+	<link href="<?= base_url($customcss); ?>/style.min.css?v=<?= time(); ?>" id="customcss-style" rel="stylesheet" type="text/css" />
 
 </head>
 
-<body>
+<body style="background-color: #aac3dc !important;">
 	<div class="home-btn d-none d-sm-block">
-		<a href="index.html" class="text-dark"><i class="fas fa-home h2"></i></a>
+		<a href="<?= site_url(''); ?>" class="text-dark"><i class="fas fa-home h2 sks-color-red"></i></a>
 	</div>
 	<div class="account-pages my-5 pt-sm-5">
 		<div class="container">
