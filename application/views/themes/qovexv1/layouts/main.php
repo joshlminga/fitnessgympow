@@ -19,8 +19,6 @@
 		<?= stripcslashes($seo_data); ?>
 	<?php endif ?>
 
-	<!-- Favicon Load -->
-	<link rel="shortcut icon" href="<?= base_url($theme_assets); ?>/favicon.ico" type="image/x-icon">
 
 	<!-- Main Header -->
 	<?php $this->load->view("themes/$theme_name/includes/head"); ?>
