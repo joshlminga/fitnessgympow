@@ -13,7 +13,7 @@
 		<div class="card-body pt-5">
 			<div class="p-2">
 				<form action="<?= site_url($form_register) ?>" class="form-horizontal" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
-
+					<!-- Notification -->
 					<?= (!is_null($notify) && !empty($notify)) ? $notify : ''; ?>
 
 					<!-- First & Last Name -->

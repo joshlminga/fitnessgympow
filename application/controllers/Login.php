@@ -11,7 +11,7 @@ class Login extends CI_Controller
 	 */
 
 	private $Module = 'user'; //Module
-	private $Folder = 'log'; //Set Default Folder For html files and Front End Use
+	private $Folder = ''; //Set Default Folder For html files and Front End Use
 	private $SubFolder = ''; //Set Default Sub Folder For html files and Front End Use Start with /
 
 	private $AllowedFile = null; //Set Default allowed file extension, remember you can pass this upon upload to override default allowed file type. Allowed File Extensions Separated by | also leave null to validate using jpg|jpeg|png|doc|docx|pdf|xls|txt change this on validation function at the bottom
@@ -103,7 +103,6 @@ class Login extends CI_Controller
 		//Form Submit URLs
 		$data['form_register'] = $this->Register;
 		$data['form_login'] = $this->Login;
-		$data['notify_signup'] = $this->Notify->blank();
 
 		return $data;
 	}
@@ -211,7 +210,13 @@ class Login extends CI_Controller
 		if ($type == 'login') {
 			$formData = $this->CoreLoad->input(); //Input Data
 
-			$this->form_validation->set_rules("logname", "Email", "required|trim|min_length[1]|max_length[40]|callback_lognamecheck|valid_email");
+			$logname = (array_key_exists('logname', $formData)) ? $formData['logname'] : null;
+			if (filter_var($logname, FILTER_VALIDATE_EMAIL)) {
+				$this->form_validation->set_rules("logname", "Email", "required|trim|min_length[1]|max_length[40]|callback_lognamecheck|valid_email");
+			} else {
+				$this->form_validation->set_rules("logname", "Phone", "required|trim|min_length[1]|max_length[12]|callback_lognamecheck");
+			}
+
 			$this->form_validation->set_rules("password", "Password", "trim|required|min_length[1]|max_length[20]");
 			$this->form_validation->set_rules("remember", "", "trim|max_length[5]");
 
@@ -219,7 +224,11 @@ class Login extends CI_Controller
 			if ($this->form_validation->run() == TRUE) {
 
 				// Login
-				$formLOG['user_email'] = $formData['logname'];
+				if (filter_var($logname, FILTER_VALIDATE_EMAIL)) {
+					$formLOG['user_email'] = $formData['logname'];
+				} else {
+					$formLOG['user_mobile'] = $formData['logname'];
+				}
 				$formLOG['user_password'] = $formData['password'];
 
 				// Remember
@@ -232,16 +241,11 @@ class Login extends CI_Controller
 				//Check if login is successful
 				if ($log_status == 'success') {
 					$this->session->set_flashdata('notification', 'notify'); //Notification Type
-
-					// Get level
-					$access_level = $this->CoreLoad->session('level');
-					$redirect = ($access_level == 'individual') ? 'user' : 'comp';
-
 					// Get User Level
-					redirect("$redirect-dashboard", "refresh"); //Redirect to Page
+					redirect("fitness-dashboard", "refresh"); //Redirect to Page
 				} elseif ($log_status == 'wrong') {
 					$this->session->set_flashdata('notification', 'error'); //Notification Type
-					$message = 'Failed!, wrong password or username'; //Notification Message				
+					$message = 'Failed!, wrong password, Email/Phone No'; //Notification Message				
 					$this->index($message); //Open Page
 				} elseif ($log_status == 'deactivated') {
 					$this->session->set_flashdata('notification', 'error'); //Notification Type
@@ -282,48 +286,41 @@ class Login extends CI_Controller
 	{
 		//Pluralize Module
 		$tableName = $this->plural->pluralize($this->Module);
-		$column_email = $this->CoreForm->get_column_name($this->Module, 'email'); //Email Column
-		$column_logname = $this->CoreForm->get_column_name($this->Module, 'logname'); //Logname Column
-		$column_password = $this->CoreForm->get_column_name($this->Module, 'password'); //Password Column
-		$column_stamp = $this->CoreForm->get_column_name($this->Module, 'stamp'); //Stamp Column
-		$column_level = $this->CoreForm->get_column_name($this->Module, 'level'); //Stamp Level
-		$column_flg = $this->CoreForm->get_column_name($this->Module, 'flg'); //Stamp FLG
-		$column_id = $this->CoreForm->get_column_name($this->Module, 'id'); //Stamp ID
-		$column_default = $this->CoreForm->get_column_name($this->Module, 'default'); //Default
 
 		//Get Array Data
 		foreach ($formData as $key => $value) {
-			if (strtolower($key) == $column_logname) {
+			if (strtolower($key) == 'user_logname') {
 				$logname = $value; //Set user logname
-			} elseif (strtolower($key) == $column_email) {
-				$email = $value; //Set user email
-			} elseif (strtolower($key) == $column_password) {
+			} elseif (strtolower($key) == 'user_email') {
+				$logname = $value; //Set user email
+			} elseif (strtolower($key) == 'user_mobile') {
+				$logname = $value; //Phone
+			} elseif (strtolower($key) == 'user_password') {
 				$password = $value; //Set user Password
 			}
 		}
+		// Log Column
+		$log_column = (array_key_exists('user_mobile', $formData)) ? 'user_mobile' : 'user_email';
 
 		//Get Date Time
-		$result = $this->db->select($column_stamp)->from($tableName)->where($column_email, $email)->limit(1)->get();
+		$result = $this->db->select('user_id,user_level,user_password,user_stamp,user_flg,user_default')->from($tableName)->where($log_column, $logname)->limit(1)->get();
 		if ($result->num_rows() === 1) {
-
 			$row = $result->row();
-			$stamp = $row->$column_stamp; //Date Time
 
 			//Check If Enabled
-			if ($this->db->select($column_flg)->where($column_email, $email)->get($tableName)->row()->$column_flg) {
+			if ($row->user_flg == 1) {
 				$hased_password = sha1($password); //Hashed Password
-				$where = array($column_email => $email, $column_password => $hased_password); // Where Clause
-				$query = $this->db->select("$column_id, $column_level, $column_default")->where($where)->limit(1)->get($tableName)->result(); //Set Query Select
+				// $where = [$log_column => $logname, 'user_password' => $hased_password]; // Where Clause
+				// $query = $this->db->select("user_id, user_level, user_default")->where($where)->limit(1)->get($tableName)->result(); //Set Query Select
 
-				if ($query) {
-
+				if ($hased_password === $row->user_password) {
 					//Session ID
 					$session_id = $this->CoreLoad->sessionName('id');
-					$newsession[$session_id] = $query[0]->$column_id;
+					$newsession[$session_id] = $row->user_id;
 
 					//Session LEVEL
 					$session_level = $this->CoreLoad->sessionName('level');
-					$newsession[$session_level] = $query[0]->$column_level;
+					$newsession[$session_level] = $row->user_level;
 
 					//Session LOGGED
 					$session_logged = $this->CoreLoad->sessionName('logged');
@@ -349,10 +346,10 @@ class Login extends CI_Controller
 					}
 
 					// Check Default
-					$default = $query[0]->$column_default;
+					$default = $row->user_default;
 					if ($default != 'no' || $default != 'yes') {
 						// Updated Default to no
-						$this->db->update($tableName, [$column_default => 'no'], [$column_id => $newsession[$session_id]]);
+						$this->db->update($tableName, ['user_default' => 'no'], ['user_id' => $newsession[$session_id]]);
 					}
 
 					return 'success'; //Logged In
@@ -381,6 +378,7 @@ class Login extends CI_Controller
 		$column_default = $this->CoreForm->get_column_name($this->Module, 'default'); //Default Column
 		$column_stamp = $this->CoreForm->get_column_name($this->Module, 'stamp'); //Stamp Column
 		$column_level = $this->CoreForm->get_column_name($this->Module, 'level'); //Stamp Level
+		$user_token = $this->CoreForm->get_column_name($this->Module, 'token'); //Token Column
 		$column_flg = $this->CoreForm->get_column_name($this->Module, 'flg'); //Stamp FLG
 		$column_id = $this->CoreForm->get_column_name($this->Module, 'id'); //Stamp ID
 
@@ -388,8 +386,8 @@ class Login extends CI_Controller
 		foreach ($formData as $key => $value) {
 			if (strtolower($key) == $column_logname) {
 				$logname = $value; //Set user logname
-			} elseif (strtolower($key) == $column_default) {
-				$default = $value; //Set user Defaulr
+			} elseif (strtolower($key) == $user_token) {
+				$token = $value; //Set user Defaulr
 			}
 		}
 
@@ -402,7 +400,7 @@ class Login extends CI_Controller
 
 			//Check If Enabled
 			if ($this->db->select($column_flg)->where($column_logname, $logname)->get($tableName)->row()->$column_flg) {
-				$where = array($column_logname => $logname, $column_default => $default); // Where Clause
+				$where = array($column_logname => $logname, $user_token => $token); // Where Clause
 				$query = $this->db->select("$column_id, $column_level")->where($where)->limit(1)->get($tableName)->result(); //Set Query Select
 
 				if ($query) {
@@ -462,7 +460,7 @@ class Login extends CI_Controller
 		$tableName = 'user';
 
 		//Validate
-		$check = (filter_var($str, FILTER_VALIDATE_EMAIL)) ? 'email' : 'logname'; //Look Email / Phone Number
+		$check = (filter_var($str, FILTER_VALIDATE_EMAIL)) ? 'email' : 'mobile'; //Look Email / Phone Number
 		if (strtolower($str) == strtolower(trim($this->CoreCrud->selectSingleValue($tableName, $check, array('id' => $this->CoreLoad->session('id')))))) {
 			return true;
 		} elseif (!is_null($this->CoreCrud->selectSingleValue($tableName, 'id', array($check => $str)))) {

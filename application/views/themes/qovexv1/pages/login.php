@@ -12,9 +12,14 @@
 		<div class="card-body pt-5">
 			<div class="p-2">
 				<form action="<?= site_url($form_login) ?>" class="form-horizontal" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
+
+					<!-- Notification -->
+					<?= (!is_null($notify) && !empty($notify)) ? $notify : ''; ?>
+
+
 					<div class="form-group">
-						<label for="lognme" class="sks-required">Email / Phone No.</label>
-						<input type="text" class="form-control" id="lognme" name="lognme" name="logname" value="<?= set_value('logname'); ?>" placeholder="Enter Email/Phone Number">
+						<label for="lognmlognamee" class="sks-required">Email / Phone No.</label>
+						<input type="text" class="form-control" id="logname" name="logname" value="<?= set_value('logname'); ?>" placeholder="Enter Email/Phone Number">
 						<span class="error"><?= form_error('logname') ?></span>
 					</div>
 

@@ -49,10 +49,46 @@ class CoreField extends CI_Model
 		$data['dev_name'] = "Vormia";
 		$data['coder_name'] = "Josh";
 
-		// 
+		// User
+		$data['userinfo'] = $this->user_info();
 
 		//returned DATA
 		return $data;
+	}
+
+	/**
+	 *
+	 * This function is used to load user info
+	 * All values are return as one array (data)
+	 * 
+	 * @param string $user_id
+	 */
+	public function user_info($user_id = null)
+	{
+		// check $user_id
+		$user_id = (is_null($user_id)) ? $this->CoreLoad->session('id') : $user_id;
+
+		// Default
+		$found = (object) ['name' => '', 'email' => '', 'phone', 'profile' => $this->CoreForm->userProfile()];
+
+		if (!is_numeric($user_id)) {
+			return $found;
+		}
+
+		// User info
+		$details = $this->CoreCrud->selectSingleValue('user', 'details', ['id' => $user_id]);
+		$foundData = json_decode($details);
+
+		// Returned Data
+		$found = (object) [
+			'name' => $foundData->user_name,
+			'email' => $foundData->user_email,
+			'phone' => $foundData->user_mobile,
+			'profile' => $this->CoreForm->userProfile($user_id, 'profile'),
+		];
+
+		// Return
+		return $found;
 	}
 }
 

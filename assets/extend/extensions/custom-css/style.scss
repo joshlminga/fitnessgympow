@@ -31,3 +31,15 @@ span.error > p {
 	color: color(red);
 	font-style: italic;
 }
+
+.alert-danger {
+	color: color(white) !important;
+	background-color: color(red) !important;
+	border-color: color(red) !important;
+
+	button.close {
+		span {
+			color: color(white) !important;
+		}
+	}
+}

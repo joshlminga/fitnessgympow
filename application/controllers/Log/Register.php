@@ -11,7 +11,7 @@ class Register extends CI_Controller
 	 */
 
 	private $Module = 'user'; //Module
-	private $Folder = 'log'; //Set Default Folder For html files and Front End Use
+	private $Folder = ''; //Set Default Folder For html files and Front End Use
 	private $SubFolder = ''; //Set Default Sub Folder For html files and Front End Use Start with /
 
 	private $AllowedFile = 'jpg|jpeg|png'; //Set Default allowed file extension, remember you can pass this upon upload to override default allowed file type. Allowed File Extensions Separated by | also leave null to validate using jpg|jpeg|png|doc|docx|pdf|xls|txt change this on validation function at the bottom
@@ -203,15 +203,16 @@ class Register extends CI_Controller
 			$this->form_validation->set_rules(
 				"user_email",
 				"Email",
-				"required|trim|max_length[150]|valid_email|is_unique[users.user_email]",
+				"trim|max_length[150]|valid_email|is_unique[users.user_email]",
 				['is_unique' => 'This email has already been registered.']
 			);
+			$this->form_validation->set_rules("user_mobile", "Phone Number", "required|trim|min_length[1]|max_length[20]|is_unique[users.user_mobile]|callback_mobilecheck[+254]");
 
 			// Login Details
 
 			$this->form_validation->set_rules("user_password", "Password", "required|trim|min_length[4]|max_length[20]");
 			$this->form_validation->set_rules(
-				"confirm_password",
+				"user_password_confirm",
 				"Confirm Password ",
 				"required|trim|min_length[4]|max_length[20]|matches[user_password]",
 				['matches' => 'Password does not match.']
@@ -222,29 +223,28 @@ class Register extends CI_Controller
 
 				//Verification Code
 				$verification = $this->CoreLoad->random(10, 'ACDEFGHJKNMPRST23456789'); //OTP code
-				// User Access
-				$access = 'customer';
-
+				$formData['user_name'] = trim($formData['first_name'] . ' ' . $formData['last_name']);
+				// Username
+				$user_name = $this->CoreForm->metaUrl($formData['first_name']);
 				// Extra
 				$userData = [
 					'terms' => 'I agree',
 					'profile' => null,
 
-					'user_level' => $access,
-					'user_logname' => $formData['user_email'],
+					'user_level' => 'customer',
+					'user_logname' => $user_name,
 					'user_password' => $formData['user_password'],
-					'user_name' => trim($formData['user_name']),
+					'user_name' => $formData['user_name'],
 					'user_email' => $formData['user_email'],
-					'user_default' => $verification,
+					'user_mobile' => $formData['user_mobile'],
+					'user_token' => $verification,
 					'user_flg' => 1,
 				];
 
 				// Unset Data
-				$formData = $this->CoreCrud->unsetData($userData, array('confirm_password', 'access'));
-				$unsetData = ['terms', 'profile'];
-
+				$formData = $this->CoreCrud->unsetData($userData, ['user_password_confirm', 'first_name', 'last_name']);
 				// Create
-				$userId = $this->create($formData, $unsetData);
+				$userId = $this->create($formData, ['terms', 'profile']);
 				if ($userId) {
 					// Send Email
 					/*
@@ -390,31 +390,6 @@ class Register extends CI_Controller
 
 	/**
 	 *
-	 * Validate Email/Username (Logname)
-	 * This function is used to validate if user email/logname already is used by another account
-	 * Call this function to validate if nedited logname or email does not belong to another user
-	 */
-	public function lognamecheck($str)
-	{
-		// Set Parent Table
-		$tableName = 'user';
-
-		//Validate
-		$check = (filter_var($str, FILTER_VALIDATE_EMAIL)) ? 'email' : 'logname'; //Look Email / Phone Number
-		if (strtolower($str) == strtolower(trim($this->CoreCrud->selectSingleValue($tableName, $check, array('id' => $this->CoreLoad->session('id')))))) {
-			return true;
-		} elseif (is_null($this->CoreCrud->selectSingleValue($tableName, 'id', array($check => $str)))) {
-			return true;
-		} elseif ($this->CoreLoad->session('level') == 'admin') {
-			return true;
-		} else {
-			$this->form_validation->set_message('lognamecheck', 'This {field} is already in use by another account');
-			return false;
-		}
-	}
-
-	/**
-	 *
 	 * Validate Full Name
 	 * 
 	 */
@@ -427,50 +402,6 @@ class Register extends CI_Controller
 			return FALSE;
 		} else {
 			return TRUE;
-		}
-	}
-
-	/**
-	 * Check WP Nicename
-	 * 
-	 */
-	public function wpnicename($str)
-	{
-		// WordPress Database
-		$this->wpdb = $this->load->database('wpdb', TRUE);
-
-		// Check Username
-		$selectData = $this->wpdb->select('ID')->where(['user_nicename' => $str])->limit(1)->get('wp_users');
-		$checkData = $this->CoreCrud->checkResultFound($selectData); //Check If Value Found
-		$inputID = ($checkData == true) ? $selectData->row()->ID : null;
-
-		// Check If ID is Null
-		if (is_null($inputID)) {
-			return TRUE;
-		} else {
-			$this->form_validation->set_message('wpnicename', 'This {field} is already in use by another account');
-			return FALSE;
-		}
-	}
-
-	/**
-	 * Check WP Email
-	 * 
-	 */
-	public function wpuseremail($str)
-	{
-		// WordPress Database
-		$this->wpdb = $this->load->database('wpdb', TRUE);
-		// Check Username
-		$selectData = $this->wpdb->select('ID')->where(['user_email' => $str])->limit(1)->get('wp_users');
-		$checkData = $this->CoreCrud->checkResultFound($selectData); //Check If Value Found
-		$inputID = ($checkData == true) ? $selectData->row()->ID : null;
-		// Check If ID is Null
-		if (is_null($inputID)) {
-			return TRUE;
-		} else {
-			$this->form_validation->set_message('wpuseremail', 'This {field} is already in use by another account');
-			return FALSE;
 		}
 	}
 
@@ -495,6 +426,31 @@ class Register extends CI_Controller
 
 	/**
 	 *
+	 * Validate Email/Username (Logname)
+	 * This function is used to validate if user email/logname already is used by another account
+	 * Call this function to validate if nedited logname or email does not belong to another user
+	 */
+	public function lognamecheck($str)
+	{
+		// Set Parent Table
+		$tableName = 'user';
+
+		//Validate
+		$check = (filter_var($str, FILTER_VALIDATE_EMAIL)) ? 'email' : 'mobile'; //Look Email / Phone Number
+		if (strtolower($str) == strtolower(trim($this->CoreCrud->selectSingleValue($tableName, $check, array('id' => $this->CoreLoad->session('id')))))) {
+			return true;
+		} elseif (is_null($this->CoreCrud->selectSingleValue($tableName, 'id', array($check => $str)))) {
+			return true;
+		} elseif ($this->CoreLoad->session('level') == 'admin') {
+			return true;
+		} else {
+			$this->form_validation->set_message('lognamecheck', 'This {field} is already in use by another account');
+			return false;
+		}
+	}
+
+	/**
+	 *
 	 * Validate Mobile/Phone Number
 	 * This function accept/take input field value / Session  mobilecheck
 	 *
@@ -507,8 +463,7 @@ class Register extends CI_Controller
 		$tableName = 'user';
 
 		//Get The Phone/Mobile Number
-		$number_reserve = trim(str_replace(" ", "", $str));
-		$number = $number_reserve;
+		$number = trim(str_replace(" ", "", $str));
 
 		// Check Default Dial Code
 		$default_dial_code = (method_exists('CoreField', 'defaultDialCode')) ? $this->CoreField->defaultDialCode() : '+1';
@@ -518,25 +473,20 @@ class Register extends CI_Controller
 
 		// Replace + from Dial Code
 		$dial_code_clear = str_replace('+', '', $dial_code);
-		$dial_code_clear = str_replace(' ', '', $dial_code_clear);
-		// If $number first digit is 0 replace it with dial code
-		$number = (substr($number, 0, 1) == 0) ? substr_replace($number, $dial_code_clear, 0, 1) : $dial_code_clear . $number;
 
 		//Check Rule
 		$rules_validate = (method_exists('CoreField', 'mobileCheck')) ? $this->CoreField->mobileCheck($number) : false;
-		$column_name = (filter_var($number, FILTER_VALIDATE_EMAIL)) ? 'email' : 'logname'; //Look Email / Phone Number
+		$column_name = (filter_var($number, FILTER_VALIDATE_EMAIL)) ? 'email' : 'mobile'; //Look Email / Phone Number
 		//Validation
 		if (!$rules_validate) {
 			//Check First Letter if does not start with 0
-			// if ($dial_code_clear == substr($number, 0, $max_count)) {
-			if (preg_match("/$dial_code_clear/", $number)) {
+			if ($dial_code_clear != substr($number, 0, $max_count)) {
 				//Check If it Phone number belongs to you
 				if (strtolower($number) == strtolower(trim($this->CoreCrud->selectSingleValue($tableName, $column_name, array('id' => $this->CoreLoad->session('id')))))) {
 					return true;
 				}
 				//Must Be Unique
 				elseif (strlen($this->CoreCrud->selectSingleValue($tableName, 'id', array($column_name => $number))) <= 0) {
-					// Replace Empty Space with
 					//Must be integer
 					if (is_numeric($number) && strlen($number) >= 10) {
 						//Check If number starts with country code
@@ -547,7 +497,7 @@ class Register extends CI_Controller
 							return false;
 						}
 					} else {
-						$this->form_validation->set_message('mobilecheck', "{field} must be atleast 10 numbers and should not include any symbol including (+) sign");
+						$this->form_validation->set_message('mobilecheck', '{field} must be atleast 10 numbers and should not include any symbol including (+) sign');
 						return false;
 					}
 				} else {
@@ -556,7 +506,7 @@ class Register extends CI_Controller
 				}
 			} else {
 				// $clear_number = $dial_code_clear . $number;
-				$this->form_validation->set_message('mobilecheck', "$number {field} should start with $dial_code_clear");
+				$this->form_validation->set_message('mobilecheck', "{field} should not start with $dial_code_clear");
 				return false;
 			}
 		} else {
@@ -571,6 +521,7 @@ class Register extends CI_Controller
 			}
 		}
 	}
+
 
 	/**
 	 *

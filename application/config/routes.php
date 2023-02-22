@@ -62,7 +62,7 @@ $db = &DB();
 /**
  * Todo: Default Routes
  */
-$route["default_controller"] = "Home"; //Main (Home) Page
+$route["default_controller"] = "Login"; //Main (Home) Page
 $route["404"] = "HomeError"; //Theme Error Page For Front-end
 $route["404_override"] = "CoreErrors/index"; //Default Error Page
 

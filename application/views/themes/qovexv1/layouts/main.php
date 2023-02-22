@@ -39,7 +39,7 @@
 			<header id="page-topbar">
 				<div class="navbar-header">
 					<div class="container-fluid">
-						<?php $this->load->view("themes/$theme_name/menus/page-topbar"); ?>
+						<?php $this->load->view("themes/$theme_name/menus/nav/page-topbar"); ?>
 					</div>
 				</div>
 			</header>
@@ -47,7 +47,7 @@
 			<!-- ========== Left Sidebar Start ========== -->
 			<div class="vertical-menu">
 				<div class="h-100">
-					<?php $this->load->view("themes/$theme_name/menus/vertical-menu"); ?>
+					<?php $this->load->view("themes/$theme_name/menus/nav/vertical-menu"); ?>
 				</div>
 			</div>
 			<!-- Left Sidebar End -->
@@ -79,7 +79,7 @@
 								<script>
 									document.write(new Date().getFullYear());
 								</script>
-								&Copy; <?= $product_name; ?>.
+								&copy; <?= $product_name; ?>.
 							</div>
 							<div class="col-sm-6">
 								<div class="text-sm-right d-none d-sm-block">
