@@ -2,14 +2,14 @@
 @mixin colorsCode($map: $colors) {
 	@each $name, $colorcode in $map {
 		.sks-color-#{$name} {
-			color: $colorcode;
+			color: $colorcode !important;
 		}
 	}
 
 	// Background Color
 	@each $name, $colorcode in $map {
 		.sks-bg-color-#{$name} {
-			background-color: $colorcode;
+			background-color: $colorcode !important;
 		}
 	}
 }

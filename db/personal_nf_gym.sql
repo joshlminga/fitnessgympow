@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 22, 2023 at 08:06 PM
+-- Generation Time: Feb 24, 2023 at 09:29 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -106,7 +106,9 @@ CREATE TABLE `customfields` (
 --
 
 INSERT INTO `customfields` (`customfield_id`, `customfield_title`, `customfield_inputs`, `customfield_filters`, `customfield_keys`, `customfield_created`, `customfield_updated`, `customfield_details`, `customfield_stamp`, `customfield_default`, `customfield_flg`) VALUES
-(1, 'member', '[\"Name\",\"Email\",\"Gender\",\"Mobile\"]', '[\"email\"]', '[\"name\",\"email\",\"gender\",\"mobile\"]', '2023-01-07 14:56:17', NULL, '{\"customfield_title\":\"member\",\"customfield_inputs\":\"[\\\"Name\\\",\\\"Email\\\",\\\"Gender\\\",\\\"Mobile\\\"]\",\"customfield_keys\":\"[\\\"name\\\",\\\"email\\\",\\\"gender\\\",\\\"mobile\\\"]\",\"customfield_filters\":\"[\\\"email\\\"]\",\"customfield_default\":\"yes\",\"customfield_stamp\":\"2022-07-27 19:26:59\"}', '2022-09-09 15:52:05', 'yes', 1);
+(1, 'member', '[\"Name\",\"Email\",\"Gender\",\"Mobile\"]', '[\"email\"]', '[\"name\",\"email\",\"gender\",\"mobile\"]', '2023-01-07 14:56:17', NULL, '{\"customfield_title\":\"member\",\"customfield_inputs\":\"[\\\"Name\\\",\\\"Email\\\",\\\"Gender\\\",\\\"Mobile\\\"]\",\"customfield_keys\":\"[\\\"name\\\",\\\"email\\\",\\\"gender\\\",\\\"mobile\\\"]\",\"customfield_filters\":\"[\\\"email\\\"]\",\"customfield_default\":\"yes\",\"customfield_stamp\":\"2022-07-27 19:26:59\"}', '2022-09-09 15:52:05', 'yes', 1),
+(2, 'calendar', '[\"member\",\"trainer\",\"program\",\"activity\",\"exercise\",\"date\",\"time\"]', '[\"member\",\"date\",\"time\"]', '[\"member\",\"trainer\",\"program\",\"activity\",\"exercise\",\"date\",\"time\"]', '2023-02-25 00:10:54', '2023-02-25 00:10:54', '{\"customfield_title\":\"calendar\",\"customfield_inputs\":\"[\\\"member\\\",\\\"trainer\\\",\\\"program\\\",\\\"activity\\\",\\\"exercise\\\",\\\"date\\\",\\\"time\\\"]\",\"customfield_keys\":\"[\\\"member\\\",\\\"trainer\\\",\\\"program\\\",\\\"activity\\\",\\\"exercise\\\",\\\"date\\\",\\\"time\\\"]\",\"customfield_filters\":\"[\\\"member\\\",\\\"date\\\",\\\"time\\\"]\",\"customfield_default\":\"yes\",\"customfield_stamp\":\"2023-02-25 00:10:54\",\"customfield_flg\":1}', '2023-02-24 21:10:54', 'yes', 1),
+(3, 'badge', '[\"member\",\"level\",\"title\",\"color\"]', '[]', '[\"member\",\"level\",\"title\",\"color\"]', '2023-02-25 00:11:31', '2023-02-25 00:11:31', '{\"customfield_title\":\"badge\",\"customfield_inputs\":\"[\\\"member\\\",\\\"level\\\",\\\"title\\\",\\\"color\\\"]\",\"customfield_keys\":\"[\\\"member\\\",\\\"level\\\",\\\"title\\\",\\\"color\\\"]\",\"customfield_filters\":\"[]\",\"customfield_default\":\"yes\",\"customfield_stamp\":\"2023-02-25 00:11:31\",\"customfield_flg\":1}', '2023-02-24 21:11:31', 'yes', 1);
 
 -- --------------------------------------------------------
 
@@ -284,7 +286,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`setting_id`, `setting_title`, `setting_value`, `setting_created`, `setting_updated`, `setting_stamp`, `setting_default`, `setting_flg`) VALUES
-(1, 'site_title', 'Core CMS Lite', '2023-01-07 14:20:55', NULL, '2020-12-07 06:15:13', 'yes', 1),
+(1, 'site_title', 'FITNESS-ONE | NELSON FITNESS', '2023-01-07 14:20:55', '2023-02-24 22:16:03', '2023-02-24 19:16:03', 'yes', 1),
 (2, 'site_slogan', 'Develop Faster, Easier and Modular', '2023-01-07 14:20:55', NULL, '2022-08-25 02:53:26', 'yes', 1),
 (3, 'theme_title', 'starter', '2023-01-07 14:20:55', NULL, '2018-11-23 02:19:36', 'yes', 1),
 (4, 'site_status', 'online', '2023-01-07 14:20:55', NULL, '2018-12-16 20:52:06', 'yes', 1),
@@ -341,7 +343,8 @@ INSERT INTO `settings` (`setting_id`, `setting_title`, `setting_value`, `setting
 (55, 'extension_menu', '{\"menu_path\":\"customer\\/menu\",\"route\":{\"customer\":\"Extension\\/Customers\\/index\",\"customer\\/new\":\"Extension\\/Customers\\/open\\/add\",\"customer\\/edit\":\"Extension\\/Customers\\/edit\\/edit\",\"customer\\/save\":\"Extension\\/Customers\\/valid\\/save\",\"customer\\/update\":\"Extension\\/Customers\\/valid\\/update\",\"customer\\/delete\":\"Extension\\/Customers\\/valid\\/delete\",\"customer\\/multiple\":\"Extension\\/Customers\\/valid\\/bulk\"},\"name\":\"Customer Extension\"}', '2023-01-07 14:20:55', NULL, '2022-09-09 15:14:54', 'route', 1),
 (56, 'extension_menu', '{\"menu_path\":\"migrate\\/menu\",\"route\":{\"migrate\":\"Extension\\/Ex_Migrate\\/open\\/manage\",\"migrate\\/save\":\"Extension\\/Ex_Migrate\\/valid\\/all\",\"migrate\\/multiple\":\"Extension\\/Ex_Migrate\\/valid\\/bulk\",\"migrate\\/(:any)\":\"Extension\\/Ex_Migrate\\/migrate\\/$1\"},\"name\":\"Migrate\"}', '2023-01-07 14:20:55', '2023-01-16 22:28:04', '2023-01-16 19:28:04', 'migration', 1),
 (57, 'route_menu', '{\"name\":\"LogAccount\",\"route\":{\"signup\":\"Log\\/Register\\/index\",\"signup\\/account\":\"Log\\/Register\\/valid\\/register\",\"signin\":\"Login\\/index\",\"signin\\/account\":\"Login\\/valid\\/login\",\"signin\\/account\\/verify\":\"Login\\/valid\\/verify\",\"reset\":\"Log\\/Reset\\/index\",\"reset-link\":\"Log\\/Reset\\/valid\\/account\",\"reset-link\\/reset\":\"Log\\/Reset\\/valid\\/reset\",\"reset\\/newpassword\":\"Log\\/Reset\\/valid\\/password\",\"logout-account\":\"Login\\/valid\\/logout\",\"signup-account\\/verify\":\"Log\\/Verify\\/valid\\/verify\",\"signup-account\\/re-retry\":\"Log\\/Verify\\/valid\\/reverify\",\"signup-account\\/re-send\":\"Log\\/Verify\\/valid\\/resend\"}}', '2023-01-07 14:20:55', '2023-02-22 22:27:30', '2023-02-22 19:27:30', 'route', 1),
-(58, 'route_menu', '{\"name\":\"1-Dashboard\",\"route\":{\"fitness-dashboard\":\"Fitness\\/Dashboard\\/index\"}}', '2023-02-22 22:21:14', '2023-02-22 22:21:14', '2023-02-22 19:21:14', 'route', 1);
+(58, 'route_menu', '{\"name\":\"1-Dashboard\",\"route\":{\"fitness-dashboard\":\"Fitness\\/Dashboard\\/index\"}}', '2023-02-22 22:21:14', '2023-02-22 22:21:14', '2023-02-22 19:21:14', 'route', 1),
+(59, 'route_menu', '{\"name\":\"2-SHEDULLE\",\"route\":{\"fitness-schedule\":\"Fitness\\/Schedule\\/index\"}}', '2023-02-25 00:14:39', '2023-02-25 00:15:14', '2023-02-24 21:15:14', 'route', 1);
 
 -- --------------------------------------------------------
 
@@ -395,7 +398,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `user_level`, `user_logname`, `user_password`, `user_name`, `user_email`, `user_mobile`, `user_created`, `user_updated`, `user_token`, `user_details`, `user_stamp`, `user_default`, `user_flg`) VALUES
 (1, 'superadmin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'John Doe', 'johndoe@core.com', NULL, '2021-07-22 13:41:26', '2023-01-07 14:33:40', NULL, '{\"user_name\":\"John Doe\",\"user_email\":\"johndoe@core.com\",\"user_level\":\"superadmin\",\"user_password\":\"d033e22ae348aeb5660fc2140aec35850c4da997\",\"user_stamp\":\"2023-01-07 14:33:40\",\"user_flg\":1,\"user_logname\":\"admin\"}', '2023-01-07 11:33:40', 'yes', 1),
 (2, 'customer', 'janedoe', '06d213088a72f4c1ac947c6f3d9ddd321650ebfb', 'Jane Doe', 'janedoe@core.com', NULL, '2022-01-07 14:25:11', NULL, NULL, '{\"user_name\":\"Jane Doe\",\"user_email\":\"janedoe@core.com\",\"user_level\":\"customer\",\"user_logname\":\"janedoe\",\"user_password\":\"06d213088a72f4c1ac947c6f3d9ddd321650ebfb\",\"user_default\":\"no\",\"user_stamp\":\"2022-01-07 14:25:11\",\"user_flg\":1}', '2022-01-07 11:25:11', 'no', 1),
-(3, 'customer', 'talon', '7d38307ef52e802145060851c5225f7e02dd9581', 'Talon  Daniels', 'cudegyzuwy@mailinator.com', '0708549611', '2023-02-22 21:44:52', '2023-02-22 22:17:17', 'TC6DE4MN5C', '{\"terms\":\"I agree\",\"profile\":null,\"user_level\":\"customer\",\"user_logname\":\"talon\",\"user_password\":\"7d38307ef52e802145060851c5225f7e02dd9581\",\"user_name\":\"Talon  Daniels\",\"user_email\":\"cudegyzuwy@mailinator.com\",\"user_token\":\"TC6DE4MN5C\",\"user_flg\":1,\"user_stamp\":\"2023-02-22 21:44:52\"}', '2023-02-22 19:17:17', 'no', 1),
+(3, 'customer', 'talon', '7d38307ef52e802145060851c5225f7e02dd9581', 'Talon  Daniels', 'cudegyzuwy@mailinator.com', '0708549611', '2023-02-22 21:44:52', '2023-02-24 18:49:45', 'TC6DE4MN5C', '{\"terms\":\"I agree\",\"profile\":null,\"user_level\":\"customer\",\"user_logname\":\"talon\",\"user_password\":\"7d38307ef52e802145060851c5225f7e02dd9581\",\"user_name\":\"Talon  Daniels\",\"user_email\":\"cudegyzuwy@mailinator.com\",\"user_mobile\":\"0708549611\",\"user_token\":\"TC6DE4MN5C\",\"user_flg\":1,\"user_stamp\":\"2023-02-22 21:44:52\"}', '2023-02-24 15:49:45', 'no', 1),
 (4, 'customer', 'georgia', '7d38307ef52e802145060851c5225f7e02dd9581', 'Georgia Ortega', 'qujosazo@mailinator.com', '0708549612', '2023-02-22 21:53:07', '2023-02-22 22:27:59', 'HFHJ78SKGK', '{\"terms\":\"I agree\",\"profile\":null,\"user_level\":\"customer\",\"user_logname\":\"georgia\",\"user_password\":\"7d38307ef52e802145060851c5225f7e02dd9581\",\"user_name\":\"Georgia Ortega\",\"user_email\":\"qujosazo@mailinator.com\",\"user_mobile\":\"0708549612\",\"user_token\":\"HFHJ78SKGK\",\"user_flg\":1,\"user_stamp\":\"2023-02-22 21:53:07\"}', '2023-02-22 19:27:59', 'no', 1);
 
 --
@@ -488,7 +491,7 @@ ALTER TABLE `blogs`
 -- AUTO_INCREMENT for table `customfields`
 --
 ALTER TABLE `customfields`
-  MODIFY `customfield_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `customfield_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `fields`
@@ -524,7 +527,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `setting_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `setting_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `tokens`

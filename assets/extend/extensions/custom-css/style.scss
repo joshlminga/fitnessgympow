@@ -43,3 +43,24 @@ span.error > p {
 		}
 	}
 }
+
+/** BOOTSTRAP 4 */
+.btn-danger {
+	background-color: color(red) !important;
+	border-color: color(red) !important;
+
+	&:hover {
+		background-color: #bb0c02 !important;
+		border-color: #bb0c02 !important;
+	}
+}
+
+.btn-warning {
+	background-color: color(orange) !important;
+	border-color: color(orange) !important;
+
+	&:hover {
+		background-color: #eeb902 !important;
+		border-color: #eeb902 !important;
+	}
+}

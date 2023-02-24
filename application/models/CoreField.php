@@ -65,6 +65,10 @@ class CoreField extends CI_Model
 	 */
 	public function user_info($user_id = null)
 	{
+		// Check Level
+		if (!in_array($this->CoreLoad->session('level'), ['customer', 'member'])) {
+			return [];
+		}
 		// check $user_id
 		$user_id = (is_null($user_id)) ? $this->CoreLoad->session('id') : $user_id;
 
